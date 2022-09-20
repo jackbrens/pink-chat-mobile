@@ -79,10 +79,9 @@
 			z-index: 1;
 			padding: 30px 40px 30px 20px;
 			background: rgba(172,197,199, 0.5);
-			margin: 0 20px;
+			margin: 50px 20px 0;
 			border-radius: 16px;
 			color: #ffffff;
-			margin-top: 10px;
 			.more-item {
 				display: flex;
 				margin-bottom: 20px;

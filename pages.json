@@ -44,7 +44,7 @@
 		"list": [
 			{
 				"pagePath": "pages/chat/chat",
-				"iconPath": "static/icon/icon_msg.png",
+				"iconPath": "static/icon/message.png",
 				"selectedIconPath": "static/icon/message-active.png",
 				"text": "聊天"
 			},

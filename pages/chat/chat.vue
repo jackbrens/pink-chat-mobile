@@ -25,7 +25,7 @@
 			for (let i = 0; i < 15; i++) {
 				this.list.push({
 					id: i + 1,
-					name: '聂先生',
+					name: '聂先生' + (i + 1),
 					desc: '你好吗你好吗你好吗你好吗你好吗你好吗你好吗你好吗你好吗',
 					tips: '2',
 					time: '12:52',
@@ -36,8 +36,9 @@
 		methods: {
 			handleToDetail(id) {
 				console.log(id);
+				const message = this.list.find(v => v.id === id)
 				uni.navigateTo({
-					url: '/pages/chat/chatDetail'
+					url: `/pages/chat/chatDetail?content=${encodeURIComponent(JSON.stringify(message))}`
 				})
 			}
 		}

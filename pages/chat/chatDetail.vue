@@ -1,6 +1,6 @@
 <template>
 	<view class="chatDetail">
-		<view ref="container" @touchmove="hideKeyboard" class="container">
+		<view ref="container" @click="hideKeyboard" @touchmove="hideKeyboard" class="container">
 			<view class="chat">
 				<image class="chat-avatar" src="../../static/avatar.jpg" alt="" />
 				<view class="chat-container">super爱豆的笑容都没你的甜~~~~</view>
@@ -47,10 +47,8 @@
 			</view>
 		</view>
 		<view class="work">
-			<view class="input">
-				<input value="今天是个伟大日子" placeholder="" />
-			</view>
-			<view class="button">
+			<div-editable ref="editable" v-model="inputValue"></div-editable>
+			<view class="button" @touchend.prevent="handleSend">
 				<image src="../../static/icon/send.png" mode=""></image>
 			</view>
 		</view>
@@ -58,11 +56,24 @@
 </template>
 
 <script>
+	import DivEditable from '@/components/divEditable.vue'
 	export default {
+		components: {
+			DivEditable
+		},
 		data() {
 			return {
-
+				inputValue: '',
+				user: {}
 			}
+		},
+		onLoad(data) {
+			this.user = JSON.parse(data.content)
+		},
+		mounted() {
+			uni.setNavigationBarTitle({
+				title: this.user.name
+			})
 		},
 		methods: {
 			hideKeyboard(e) {
@@ -77,6 +88,20 @@
 					console.log(res[0].height) // 元素高度
 					return res[0].height
 				});
+			},
+
+			handleInput(e) {
+				console.log(e.target.value)
+			},
+
+			// 点击发送按钮
+			handleSend(e) {
+				const dom = document.querySelector('.my-chat').cloneNode(true)
+				dom.childNodes[1].innerHTML = this.inputValue
+				this.$refs.container.$el.appendChild(dom)
+				this.inputValue = ''
+				this.$refs.editable.clearDivEditor()
+				window.scrollTo(0, this.$refs.container.$el.clientHeight)
 			}
 		}
 	}
@@ -89,6 +114,7 @@
 			flex: 1;
 			padding: 20px;
 			padding-bottom: 80px;
+
 			.chat {
 				display: flex;
 				margin-bottom: 30px;
@@ -136,16 +162,9 @@
 			width: 100%;
 			padding: 20px;
 			box-sizing: border-box;
-			background-color: $uni-actice-color;
+			background-color: rgba(255, 255, 255, 0.8);
+			backdrop-filter: blur(20px);
 			display: flex;
-
-			.input {
-				border-radius: 15px;
-				background-color: #ffffff;
-				padding: 5px 10px;
-				flex: 1;
-				margin-right: 10px;
-			}
 
 			.button {
 				width: 40px;
